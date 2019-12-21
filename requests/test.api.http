@@ -1,32 +1,52 @@
 # Empty param 
-# GET http://localhost:3000/api/timestamp/
+GET http://localhost:3000/api/timestamp/
+
+###
 
 # Invalid string
-# GET http://localhost:3000/api/timestamp/error
+GET http://localhost:3000/api/timestamp/error
+
+###
 
 # Invalid string
-# GET http://localhost:3000/api/timestamp/!!!
+GET http://localhost:3000/api/timestamp/!!!
+
+###
 
 # Valid timestamp
-# GET http://localhost:3000/api/timestamp/1450137600
+GET http://localhost:3000/api/timestamp/1450137600
+
+###
 
 # Valid timestamp min length = 1
-# GET http://localhost:3000/api/timestamp/1
+GET http://localhost:3000/api/timestamp/1
+
+###
 
 # Invalid timestamp max length > 16
-# GET http://localhost:3000/api/timestamp/12345678910131517
+GET http://localhost:3000/api/timestamp/12345678910131517
+
+###
 
 # Valid date
-# GET http://localhost:3000/api/timestamp/2015-12-25
+GET http://localhost:3000/api/timestamp/2015-12-25
+
+###
 
 # Invalid date wrong number of month
-# GET http://localhost:3000/api/timestamp/2015-00-25
+GET http://localhost:3000/api/timestamp/2015-00-25
+
+###
 
 # Invalid date wrong number of month
-# GET http://localhost:3000/api/timestamp/2015-99-25
+GET http://localhost:3000/api/timestamp/2015-99-25
+
+###
 
 # Invalid date wrong number of day
-# GET http://localhost:3000/api/timestamp/2015-12-00
+GET http://localhost:3000/api/timestamp/2015-12-00
+
+###
 
 # Invalid date wrong number of day
-# GET http://localhost:3000/api/timestamp/2015-12-32
+GET http://localhost:3000/api/timestamp/2015-12-32
