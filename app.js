@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 const sassMiddleware = require('node-sass-middleware')
 const useragent = require('express-useragent')
+var favicon = require('serve-favicon')
 
 const indexRouter = require('./routes/index')
 const helloRouter = require('./routes/api/hello')
@@ -27,6 +28,7 @@ app.use(sassMiddleware({
   sourceMap: true
 }))
 app.use(useragent.express())
+app.use(favicon(path.join(__dirname, 'public/images/png', 'favicon.ico')))
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/', indexRouter)
