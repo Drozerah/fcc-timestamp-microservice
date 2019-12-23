@@ -6,7 +6,8 @@
     "start": "node ./bin/www",
     "start:dev": "nodemon ./bin/www",
     "start:prod": "cross-env NODE_ENV=production nodemon ./bin/www",
-    "babel": "rm -rf public/javascripts/bundle.min.js && babel public/javascripts/app.js --out-file public/javascripts/bundle.min.js"
+    "babel": "babel public/javascripts/app.js --out-file public/javascripts/bundle.min.js --verbose --watch",
+    "babel:clean": "rm -rf public/javascripts/bundle.min.js"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
