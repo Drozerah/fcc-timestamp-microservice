@@ -1,8 +1,58 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,400i&display=swap");
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  background-color: #FaFaFa; }
+
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
+  font-weight: 400;
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  color: #222; }
+
+p {
+  margin: 17px 0px; }
 
 a {
-  color: #00B7FF; }
+  color: blue;
+  text-decoration: none;
+  background-color: inherit; }
+
+td {
+  padding: 0px 50px;
+  text-align: left; }
+  td:first-child {
+    padding-left: 0px; }
+
+button {
+  cursor: pointer;
+  outline: none;
+  padding: 10px 20px;
+  color: white;
+  background-color: blue;
+  font-size: 18px;
+  border-radius: 5px;
+  margin-bottom: 20px; }
+
+.italic {
+  font-style: italic; }
+
+.monospace {
+  font-family: monospace; }
+
+code {
+  background-color: #fff;
+  padding: 5px 10px;
+  border-radius: 3px; }
+
+.title {
+  margin-bottom: 45px; }
+
+#result {
+  opacity: 0;
+  transition: opacity .25s;
+  padding: 0px; }
 
 /*# sourceMappingURL=style.css.map */

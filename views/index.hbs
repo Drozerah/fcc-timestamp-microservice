@@ -1,2 +1,47 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<h1 class="title">{{title}}</h1>
+<p>
+The <span class="italic monospace">{{title}}</span> is part of the Free Code Camp Backend Challenges for the APIs and Microservices Certification.
+</p>
+<p>The API endpoint is GET</p>
+<pre>
+<code class="javascript hljs origin">[origin]/api/timestamp/:date_string?</code>
+</pre>
+<h2>Example</h2>
+<p>Run this code in a console or from any site:</p>
+<pre>
+<code class="javascript hljs origin">fetch('[origin]/api/timestamp/2016-11-20')
+  .then(response => response.json())
+  .then(json => console.log(json))
+</code>
+</pre>
+<button class="btn__test">Try it</button>
+<br>
+</pre>
+<pre><code id="result" class="json hljs"></code></pre>
+<h2>Routes</h2>
+<p>Supported HTTP method:</p>
+<table>
+  <tbody>
+    <tr>
+      <td>GET</td>
+      <td><a target="_blank" rel="noopener noreferrer" href="/api/timestamp" class="origin">/api/timestamp</a target="_blank" rel="noopener noreferrer"></td>
+      <td>*</td>
+    </tr>
+    <tr>
+      <td>GET</td>
+      <td><a target="_blank" rel="noopener noreferrer" href="/api/timestamp/2016-11-20" class="origin">/api/timestamp/2016-11-20</a></td>
+      <td>date ISO-8601</td>
+    </tr>
+    <tr>
+      <td>GET</td>
+      <td><a target="_blank" rel="noopener noreferrer" href="/api/timestamp/1479600000000" class="origin">/api/timestamp/1479600000000</a></td>
+      <td>unix timestamp</td>
+    </tr>
+    <tr>
+    <td>GET</td>
+      <td><a target="_blank" rel="noopener noreferrer" href="/api/timestamp/badly_formated_date_string" class="origin">/api/timestamp/badly_formated_date_string</a></td>
+      <td>invalid date parameter</td>
+    </tr>
+  </tbody>
+</table>
+<p>* If the date_string parameter is empty, the service uses the current timestamp.</p>
