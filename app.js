@@ -4,6 +4,7 @@ const path = require('path')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 const sassMiddleware = require('node-sass-middleware')
+const useragent = require('express-useragent')
 
 const indexRouter = require('./routes/index')
 const helloRouter = require('./routes/api/hello')
@@ -25,6 +26,7 @@ app.use(sassMiddleware({
   indentedSyntax: false, // true = .sass and false = .scss
   sourceMap: true
 }))
+app.use(useragent.express())
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/', indexRouter)
