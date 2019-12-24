@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "start:dev": "nodemon ./bin/www",
+    "start:dev": "cross-env NODE_ENV=development nodemon ./bin/www",
     "start:prod": "cross-env NODE_ENV=production nodemon ./bin/www",
     "babel": "babel public/javascripts/bundle.browserify.js --out-file public/javascripts/bundle.min.js",
     "browserify": "browserify -t babelify -e public/javascripts/app.js -o public/javascripts/bundle.browserify.js && npm run babel"
@@ -29,6 +29,7 @@
     "babel-preset-minify": "^0.5.1",
     "babelify": "^10.0.0",
     "cross-env": "^6.0.3",
+    "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.19.1",
