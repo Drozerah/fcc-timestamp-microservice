@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>{{title}}</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
-  </head>
-  <body>
-    <noscript>
-      <div class="noscript__title">Javascript Required</div>
-      <p>We're sorry but this page doesn't work properly without JavaScript enabled. Please enable it to continue.</p>
-    </noscript>
-    {{{body}}}
-    {{!-- if ie11 --}}
-    {{#if isIE11 }}
-    <script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js?features=Array.prototype.forEach%2Cfetch%2CArray.from"></script>
-    {{/if}}
-    {{!-- End if  --}}
-    {{!-- <script src='/javascripts/app.js'></script> --}}
-    <script src='/javascripts/bundle.min.js'></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-  </body>
+
+<head>
+  <title>{{title}}</title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link rel="icon" type="image/png" href="/images/png/favicon.ico" />
+</head>
+
+<body>
+  <noscript>
+    <div class="noscript__title">Javascript Required</div>
+    <p>We're sorry but this page doesn't work properly without JavaScript enabled. Please enable it to continue.</p>
+  </noscript>
+  {{{body}}}
+  {{!-- if ie11 --}}
+  {{#if isIE11 }}
+    <script crossorigin="anonymous"src="https://polyfill.io/v3/polyfill.min.js?features=Symbol%2CSymbol.asyncIterator%2CObject.getOwnPropertyDescriptor%2CObject.getOwnPropertyDescriptors%2CObject.getOwnPropertyNames%2CReflect.getOwnPropertyDescriptor%2CArray.prototype.forEach%2Cfetch%2CArray.from%2CNodeList.prototype.forEach"></script>
+  {{/if}}
+  {{!-- End if  --}}
+  {{!-- <script src='/javascripts/app.js'></script> --}}
+  <script src='/javascripts/bundle.min.js'></script>
+  {{!-- <script src='/javascripts/bundle.browserify.js'></script> --}}
+</body>
+
 </html>

@@ -7,3 +7,4 @@
 # Ignore dist folder with all files inside
 dist/*
 bundle.min.js
+bundle.browserify.js

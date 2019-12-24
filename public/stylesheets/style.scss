@@ -1,19 +1,18 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,400i&display=swap');
-
+@import "../../node_modules/highlight.js/scss/github.scss";
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  
 }
 
 body {
+  height: 100vh;
   padding: 50px;
   font-weight: 400;
   font-family: 'Roboto', sans-serif;
   font-size: 18px;
   color: #222;
-  // line-height: 1.4em;
   background-color: #FaFaFa;
 }
 

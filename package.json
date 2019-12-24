@@ -6,26 +6,28 @@
     "start": "node ./bin/www",
     "start:dev": "nodemon ./bin/www",
     "start:prod": "cross-env NODE_ENV=production nodemon ./bin/www",
-    "babel": "babel public/javascripts/app.js --out-file public/javascripts/bundle.min.js --verbose --watch",
-    "babel:clean": "rm -rf public/javascripts/bundle.min.js"
+    "babel": "babel public/javascripts/bundle.browserify.js --out-file public/javascripts/bundle.min.js",
+    "browserify": "browserify -t babelify -e public/javascripts/app.js -o public/javascripts/bundle.browserify.js && npm run babel"
   },
   "dependencies": {
+    "browserify": "^16.5.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "express-useragent": "^1.0.13",
     "express-validator": "^6.3.0",
     "hbs": "~4.0.4",
+    "highlight.js": "^9.17.1",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
-    "node-sass-middleware": "0.11.0",
-    "serve-favicon": "^2.5.0"
+    "node-sass-middleware": "0.11.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.7.7",
     "@babel/core": "^7.7.7",
     "@babel/preset-env": "^7.7.7",
     "babel-preset-minify": "^0.5.1",
+    "babelify": "^10.0.0",
     "cross-env": "^6.0.3",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.0",
