@@ -7,7 +7,8 @@
     "start:dev": "cross-env NODE_ENV=development nodemon ./bin/www",
     "start:prod": "cross-env NODE_ENV=production nodemon ./bin/www",
     "babel": "babel public/javascripts/bundle.browserify.js --out-file public/javascripts/bundle.min.js",
-    "browserify": "browserify -t babelify -e public/javascripts/app.js -o public/javascripts/bundle.browserify.js && npm run babel"
+    "browserify": "browserify -t babelify -e public/javascripts/app.js -o public/javascripts/bundle.browserify.js && npm run babel",
+    "test": "mocha --require @babel/register 'test/**spec.js'"
   },
   "dependencies": {
     "browserify": "^16.5.0",
@@ -26,6 +27,7 @@
     "@babel/cli": "^7.7.7",
     "@babel/core": "^7.7.7",
     "@babel/preset-env": "^7.7.7",
+    "@babel/register": "^7.7.7",
     "babel-preset-minify": "^0.5.1",
     "babelify": "^10.0.0",
     "cross-env": "^6.0.3",
@@ -36,7 +38,9 @@
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
-    "nodemon": "^2.0.2"
+    "mocha": "^6.2.2",
+    "nodemon": "^2.0.2",
+    "supertest": "^4.0.2"
   },
   "author": {
     "name": "Thomas G. aka Drozerah",

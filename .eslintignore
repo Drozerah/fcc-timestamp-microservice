@@ -8,3 +8,4 @@
 dist/*
 bundle.min.js
 bundle.browserify.js
+spec.js
