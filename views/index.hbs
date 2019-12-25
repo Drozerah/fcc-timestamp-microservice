@@ -1,9 +1,13 @@
 <h1 class="title">{{title}}</h1>
 <p>
-  The <span class="italic monospace">{{title}}</span> is part of the Free Code Camp Backend Challenges for the APIs and
+  > The <span class="italic monospace">{{title}}</span> is part of the Free Code Camp Backend Challenges for the APIs and
   Microservices Certification.
 </p>
-<p>The API endpoint is:</p>
+<br>
+<h2>Description</h2>
+<p>Pass in a date in different formats - see below  <b>routes</b>  - to the endpoint of the API and it will return the corresponding UTC & UNIX time. <br> With no given parameter the API return the current time in both UTC and UNIX formats.</p>
+<h2>Endpoint</h2>
+<br>
 <pre>
 <code class="http origin hljs">GET [origin]/api/timestamp/:date_string?</code>
 </pre>
@@ -44,9 +48,9 @@
     <tr>
       <td>GET</td>
       <td><a target="_blank" rel="noopener noreferrer" href="/api/timestamp/badly_formated_date_string"
-          class="origin">/api/timestamp/badly_formated_date_string</a></td>
-      <td>invalid date parameter</td>
+          class="origin">/api/timestamp/badly_formatted_date_string</a></td>
+      <td>invalid date parameter  **</td>
     </tr>
   </tbody>
 </table>
-<p>* If the date_string parameter is empty, the service uses the current timestamp.</p>
+<p>* If the date_string parameter is empty, the service uses the current timestamp. <br> **  A badly formatted date string date_string parameter causes an handled and expected error response.</p>

@@ -103,6 +103,9 @@ a {
   text-decoration: none;
   background-color: inherit; }
 
+h2 {
+  font-size: 23px; }
+
 td {
   padding: 0px 50px;
   text-align: left; }
@@ -152,5 +155,36 @@ code {
   opacity: 0;
   transition: opacity .25s;
   padding: 0px; }
+
+footer {
+  margin-top: 40px; }
+
+/* DROZERAH */
+.drozerah {
+  text-decoration: none;
+  font-size: 18px;
+  line-height: 24px;
+  height: 24px;
+  color: #333; }
+
+.drozerah svg {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  vertical-align: -2px; }
+
+.drozerah path {
+  fill: #6a1b9a;
+  fill-rule: evenodd; }
+
+.drozerah span {
+  display: inline-block;
+  color: #6a1b9a; }
+
+.drozerah:hover path {
+  fill: purple; }
+
+.drozerah:hover span {
+  color: purple; }
 
 /*# sourceMappingURL=style.css.map */
