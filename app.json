@@ -1,0 +1,7 @@
+{
+  "name": "fcc-timestamp-microservice",
+  "description": "A FreeCodeCamp 'APIs and Microservices Certification' project",
+  "repository": "https://github.com/Drozerah/fcc-timestamp-microservice",
+  "keywords": ["node", "express", "heroku"],
+  "image": "heroku/nodejs"
+}
