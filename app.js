@@ -11,7 +11,8 @@ const helloRouter = require('./routes/api/hello')
 const timestampRouter = require('./routes/api/timestamp')
 
 const app = express()
-
+var cors = require('cors')
+app.use(cors({ optionSuccessStatus: 200 })) // some legacy browsers choke on 204
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'hbs')
