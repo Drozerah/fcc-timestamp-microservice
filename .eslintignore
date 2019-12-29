@@ -8,5 +8,5 @@
 dist/*
 bundle.min.js
 bundle.browserify.js
-spec.js
+timestamp.spec.js
 whoiam.spec.js
