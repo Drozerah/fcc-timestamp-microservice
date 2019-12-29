@@ -9,6 +9,7 @@ const useragent = require('express-useragent')
 const indexRouter = require('./routes/index')
 const helloRouter = require('./routes/api/hello')
 const timestampRouter = require('./routes/api/timestamp')
+const whoiamRouter = require('./routes/api/whoiam')
 
 const app = express()
 var cors = require('cors')
@@ -33,6 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use('/', indexRouter)
 app.use('/api/hello', helloRouter)
 app.use('/api/timestamp', timestampRouter)
+app.use('/api/whoiam', whoiamRouter)
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
