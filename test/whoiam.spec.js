@@ -5,7 +5,7 @@ const request = require("supertest")
 */
 // ? [x] I can get the IP address, language and operating system for the browser.
 describe("Test API route /api/whoiam", () => {
-  it("It should retur the IP address, language and the and operating system for the browser", (done) => {
+  it("It should return the IP address, language and the operating system for the browser", (done) => {
     request(app)
       .get("/api/whoiam")
       .expect('Content-Type', /json/)
