@@ -1,7 +1,32 @@
-# Empty param
+# GET with an empty parameter
 GET http://localhost:3000/api/shorturl/
 
 ###
 
-# With param
+# GET with a parameter
 GET http://localhost:3000/api/shorturl/url_id
+
+### 
+
+# POST with an empty parameter
+POST http://localhost:3000/api/shorturl/new/
+
+###
+
+# POST with an invalid url parameter
+POST http://localhost:3000/api/shorturl/new/
+content-type: application/json
+
+{
+  "original_url": "ttps:/www"
+}
+
+###
+
+# POST with a valid url parameter
+POST http://localhost:3000/api/shorturl/new/
+content-type: application/json
+
+{
+	"original_url": "https://www.google.com/"
+}

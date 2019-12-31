@@ -36,8 +36,8 @@ app.use('/', indexRouter)
 app.use('/api/hello', helloRouter)
 app.use('/api/timestamp', timestampRouter)
 app.use('/api/whoiam', whoiamRouter)
-app.use('/api/shorturl', shortUrlRouter)
-app.use('/api/shorturl/new', shortUrlRouter)
+app.use('/api/shorturl/', shortUrlRouter)
+// app.use('/api/shorturl/new', shortUrlRouter)
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
