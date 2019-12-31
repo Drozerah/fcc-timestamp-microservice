@@ -1,0 +1,7 @@
+# Empty param
+GET http://localhost:3000/api/shorturl/
+
+###
+
+# With param
+GET http://localhost:3000/api/shorturl/url_id
