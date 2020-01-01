@@ -56,8 +56,6 @@ router.post('/new',
         // update response Object short url ID from existing db Object
         // eslint-disable-next-line dot-notation
         resShortUrl['short_url'] = url.shortUrlId
-        // increment views if db Object
-        // await url.update({ $inc: { views: 1 } }) // TODO => updateOne
         // send response to client
         res.json(resShortUrl)
       } else {
@@ -109,6 +107,8 @@ router.get(
         const data = await ShortUrl.findOne({ shortUrlId })
         if (data) {
           // * shortened url already in db
+          // * update data Object increment views
+          await data.updateOne({ $inc: { views: 1 } })
           // * make redirection
           res.redirect(data.originalUrl)
         } else {
