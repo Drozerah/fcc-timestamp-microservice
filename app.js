@@ -1,5 +1,6 @@
 const createError = require('http-errors')
 const express = require('express')
+const connectDB = require('./config/db')
 const path = require('path')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
@@ -13,6 +14,8 @@ const whoiamRouter = require('./routes/api/whoiam')
 const shortUrlRouter = require('./routes/api/urlshortener')
 
 const app = express()
+// Connect to db
+connectDB()
 var cors = require('cors')
 app.use(cors({ optionSuccessStatus: 200 })) // some legacy browsers choke on 204
 // view engine setup

@@ -1,3 +1,4 @@
+require('@babel/polyfill')
 const app = require('../app')
 const request = require('supertest')
 console.log(`[APP-MODE] ${app.get('env')}`)
