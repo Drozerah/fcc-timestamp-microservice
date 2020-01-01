@@ -3,8 +3,13 @@ GET http://localhost:3000/api/shorturl/
 
 ###
 
-# GET with a parameter
+# GET with invalid parameter
 GET http://localhost:3000/api/shorturl/url_id
+
+### 
+
+# GET with valid parameter
+GET http://localhost:3000/api/shorturl/hjklfj8i
 
 ### 
 
