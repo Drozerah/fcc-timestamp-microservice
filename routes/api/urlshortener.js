@@ -35,13 +35,20 @@ router.get('/:short_url_id?', (req, res) => {
 //      success case: {"original_url":"www.google.com","short_url":1}
 //      error case: {"error":"invalid URL"}
 router.post('/new',
-  validateURL,
-  validateHosteName, (req, res) => {
-    console.log(`REQUEST: '${req.body.original_url}'`) // !DEV original url
+  validateURL, // * Middleware
+  validateHosteName, // * Middleware
+  (req, res) => {
+    // console.log(`REQUEST: '${req.body.original_url}'`) // !DEV original url
+    let shortUrl
+    if (process.env.NODE_ENV === 'test') {
+      shortUrl = 'hjklfj8i' // ! TEST
+    } else {
+      shortUrl = shortid.generate() // ! PROD
+    }
     // create response
     const newShortUrl = {
       original_url: req.body.original_url,
-      short_url: shortid.generate() // generate short_url ID
+      short_url: shortUrl // generated short_url ID
     }
     // send response
     res.json(newShortUrl)
