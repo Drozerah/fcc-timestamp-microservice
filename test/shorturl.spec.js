@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /**
 * Babel
 */
@@ -27,9 +28,7 @@ const originalUrl = 'https://www.google.com'
 // // [x] When I visit that shortened URL, it will redirect me to my original link.
 // // Custom tests
 // // [x] It should return a 400 status code and json {"400": "bad request"}
-// eslint-disable-next-line no-undef
 describe('Test API route /api/shorturl/:param?', () => {
-  // eslint-disable-next-line no-undef
   it('No ID parameter should return a 400 status code and JSON {"error": "bad request"}', (done) => {
     request(app)
       .get('/api/shorturl')
@@ -44,7 +43,6 @@ describe('Test API route /api/shorturl/:param?', () => {
         }
       })
   })
-  // eslint-disable-next-line no-undef
   it('No ID found should return a 400 status code and JSON {"error": "bad request"}', (done) => {
     request(app)
       .get(`/api/shorturl/${notFoundshortUrlId}`)
@@ -59,7 +57,6 @@ describe('Test API route /api/shorturl/:param?', () => {
         }
       })
   })
-  // eslint-disable-next-line no-undef
   it('Valid parameter should return a 302 status code for redirection and Content-type \'text/plain; charset=utf-8\'', (done) => {
     request(app)
       .get(`/api/shorturl/${shortUrlId}`)
@@ -78,9 +75,7 @@ describe('Test API route /api/shorturl/:param?', () => {
 // // FCC tests
 // // [x] If I pass an invalid URL that doesn't follow the valid http://www.example.com format, the JSON response will contain an error instead.
 // // [x] I can pass a URL as a parameter and I will receive a shortened URL in the JSON response.
-// eslint-disable-next-line no-undef
 describe('Test API route /api/shorturl/new', () => {
-  // eslint-disable-next-line no-undef
   it('Invalid URL should return a 401 status code with a JSON {"error": "invalid URL"}', (done) => {
     request(app)
       .post('/api/shorturl/new')
@@ -95,7 +90,6 @@ describe('Test API route /api/shorturl/new', () => {
         done()
       })
   })
-  // eslint-disable-next-line no-undef
   it(`Valid URL should return a 200 status code with a JSON {"original_url": "${originalUrl}","short_url": "${shortUrlId}"}`, (done) => {
     request(app)
       .post('/api/shorturl/new')
