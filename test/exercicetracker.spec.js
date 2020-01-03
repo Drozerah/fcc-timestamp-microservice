@@ -87,3 +87,30 @@ describe('Test API route /api/exercise/new-user', () => {
       })
   })
 })
+/**
+* Specifications
+*/
+// FCC tests
+// ? [x] I can get an array of all users by getting api/exercise/users with the same info as when creating a user.
+describe('Test API route /api/exercice/users', () => {
+  // all users
+  it('Get Array of all users - expect 200 status code - users have "_id" & "username" properties', (done) => {
+    request(app)
+      .get('/api/exercise/users')
+      .expect(200)
+      .then(response => {
+        const data = response.body
+        const isArray = Array.isArray(data) // boolean
+        // eslint-disable-next-line no-prototype-builtins
+        const everyHasPropId = data.every(user => user.hasOwnProperty('_id')) // boolean
+        // eslint-disable-next-line no-prototype-builtins
+        const everyHasPropUsername = data.every(user => user.hasOwnProperty('username')) // boolean
+        if (response && isArray && everyHasPropId && everyHasPropUsername) {
+          done()
+        } else {
+          const e = 'error'
+          done(e)
+        }
+      })
+  })
+})

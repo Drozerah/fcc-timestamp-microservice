@@ -4,6 +4,11 @@
 const express = require('express')
 const router = express.Router()
 /**
+* Mongoose Helpers
+*/
+const { asyncListDBCollections } = require('../../utils/helpers/mongoDB')
+
+/**
 * Exercice Tracker Middlewares
 */
 const { validationRules, validationTasks } = require('../../middlewares/exercicetracker')
@@ -25,7 +30,7 @@ router.post(
     */
     try {
       // get username from request
-      const username = await req.body.username
+      const username = await req.body.username // ! test without await
       // findOne in db
       let newUser = await User.findOne({ username })
       if (newUser) {
@@ -49,6 +54,37 @@ router.post(
         }
         // send response to client
         res.status(200).json(data)
+      }
+    } catch (error) {
+      res.setHeader('content-type', 'text/plain')
+      res.status(500).send('500 INTERNAL SERVER ERROR')
+    }
+  })
+
+/* GET an array of all users */
+// @route           POST /api/exercise/users
+// @description     return a JSON array of all users with the same info as when creating a user.
+router.get('/users',
+  async (req, res, next) => {
+    /**
+    * Working with db
+    */
+    // @method            db.collection.find(query, projection)
+    // @collection        users
+    // @description       find all users | exclude 'created' field
+    // const collections = await asyncListCollections()
+    const users = await User.find(null, { created: 0 })
+    // check if users collections exists in db
+    const dbCollections = await asyncListDBCollections()
+    const isUsersCollection = dbCollections.includes('users')
+    try {
+      if (users && isUsersCollection) {
+        // * ressource is found
+        res.status(200).json(users)
+      } else {
+        // * ressource not found
+        res.setHeader('content-type', 'text/plain')
+        res.status(404).send('404 NOT FOUND')
       }
     } catch (error) {
       res.setHeader('content-type', 'text/plain')
