@@ -63,7 +63,18 @@ const asyncListDBCollections = () => {
   })
 }
 
+/**
+ * Check if string is a mogoose valid ObjectId
+ *
+ * @param  {String} id the given string to validate
+ * @returns {Boolean} respond with a Boolean
+ */
+const TypesObjectIdisValid = (id) => {
+  return mongoose.Types.ObjectId.isValid(id)
+}
+
 module.exports = {
   ListDBCollections,
-  asyncListDBCollections
+  asyncListDBCollections,
+  TypesObjectIdisValid
 }

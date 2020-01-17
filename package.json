@@ -13,7 +13,7 @@
     "start:prod": "cross-env NODE_ENV=production nodemon ./bin/www",
     "babel": "babel public/javascripts/bundle.browserify.js --out-file public/javascripts/bundle.min.js",
     "browserify": "browserify -t babelify -e public/javascripts/app.js -o public/javascripts/bundle.browserify.js && npm run babel",
-    "test": "cross-env NODE_ENV=test mocha --require @babel/register --exit 'test/**.spec.js'"
+    "test": "cross-env NODE_ENV=test mocha --require @babel/register --exit 'test/exercicetracker.spec.js'"
   },
   "dependencies": {
     "browserify": "^16.5.0",

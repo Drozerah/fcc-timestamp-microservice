@@ -6,7 +6,7 @@ const router = express.Router()
 /**
 * Mongoose Helpers
 */
-const { asyncListDBCollections } = require('../../utils/helpers/mongoDB')
+const { asyncListDBCollections, TypesObjectIdisValid } = require('../../utils/helpers/mongoDB')
 
 /**
 * Exercice Tracker Middlewares
@@ -62,7 +62,7 @@ router.post(
   })
 
 /* GET an array of all users */
-// @route           POST /api/exercise/users
+// @route           GET /api/exercise/users
 // @description     return a JSON array of all users with the same info as when creating a user.
 router.get('/users',
   async (req, res, next) => {
@@ -91,5 +91,38 @@ router.get('/users',
       res.status(500).send('500 INTERNAL SERVER ERROR')
     }
   })
+
+/* GET full exercise log */
+// @route           GET /api/exercise/log?userId=<ObjectId>
+// @description     I can retrieve a full exercise log of any user by getting /api/exercise/log with a parameter of userId(_id). App will return the user object with added array log and count (total exercise count).
+router.get('/log', async (req, res) => {
+  const userId = await req.query.userId
+  try {
+    if (userId && TypesObjectIdisValid(userId)) {
+      // parameter is not null and it is a valid mongoose Object Id
+      // * find user by id
+      User.findById(userId, { created: 0, __v: 0 }, (err, user) => {
+        if (!err) {
+          if (!user) {
+            // * ressource not found
+            res.setHeader('content-type', 'text/plain')
+            res.status(404).send('404 NOT FOUND')
+          } else {
+            // * ressource is found
+            res.status(200).json(user)
+          }
+        }
+      })
+    } else {
+      // * parameter is null or is an invalid mongoose Object Id
+      res.setHeader('content-type', 'text/plain')
+      res.status(400).send('400 BAD REQUEST')
+    }
+  } catch (error) {
+    console.log(`ERROR ${error}`) // !DEV
+    res.setHeader('content-type', 'text/plain')
+    res.status(500).send('500 INTERNAL SERVER ERROR')
+  }
+})
 
 module.exports = router

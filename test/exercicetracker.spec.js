@@ -114,3 +114,96 @@ describe('Test API route /api/exercice/users', () => {
       })
   })
 })
+/**
+* Specifications
+*/
+// FCC test
+// ? [ ] I can add an exercise to any user by posting form data userId(_id), description, duration, and optionally date to /api/exercise/add. If no date supplied it will use current date. App will return the user object with the exercise fields added.
+describe('Test API route /api/exercise/add', () => {
+  // Add an exercice to user by id
+  it('expect 200 status code', (done) => {
+    request(app)
+      .post('/api/exercise/add')
+      .expect(200)
+      .end((err, res) => {
+        if (err) {
+          done(err)
+        } else {
+          done()
+        }
+      })
+  })
+})
+/**
+* Specifications
+*/
+// Custom test
+// ? [x] return 400 bad request with no userId param
+describe('Test API route /api/exercise/log with no userId param', () => {
+  it('expect 400 status code with "400 BAD REQUEST" text', (done) => {
+    request(app)
+      .get('/api/exercise/log')
+      .expect('Content-Type', /text/)
+      .expect(400, '400 BAD REQUEST')
+      .end((err) => {
+        if (err) return done(err)
+        done()
+      })
+  })
+})
+/**
+* Specifications
+*/
+// Custom test
+// ? [x] return 400 bad request with invalid mongoose Object Id
+const invalidUserId = '5e208d3bbc010f2'
+describe(`Test API route /api/exercise/log?userId=${invalidUserId} with invalid mongoose Object Id`, () => {
+  it('expect 400 status code with "400 BAD REQUEST" text', (done) => {
+    request(app)
+      .get(`/api/exercise/log?userId=${invalidUserId}`)
+      .expect('Content-Type', /text/)
+      .expect(400, '400 BAD REQUEST')
+      .end((err) => {
+        if (err) return done(err)
+        done()
+      })
+  })
+})
+/**
+* Specifications
+*/
+// Custom test
+// ? [x] return 404 NOT FOUND with valid Id but no matching result
+const validUserIdNotFound = '5d3350fe14e97100799394f5'
+describe(`Test API route /api/exercise/log?userId=${validUserIdNotFound} with valid Id but no matching result`, () => {
+  it('expect 404 status code with "404 NOT FOUND" text', (done) => {
+    request(app)
+      .get(`/api/exercise/log?userId=${validUserIdNotFound}`)
+      .expect(404, '404 NOT FOUND')
+      .end((err) => {
+        if (err) return done(err)
+        done()
+      })
+  })
+})
+/**
+* Specifications
+*/
+// FCC test
+// ? [ ] I can retrieve a full exercise log of any user by getting /api/exercise/log with a parameter of userId(_id). App will return the user object with added array log and count (total exercise count)
+const validUserId = '5e10026dc091e32a58d9f9dc'
+describe(`Test API route /api/exercise/log?userId=${validUserId}`, () => {
+  // Add an exercice to user by id
+  it('`~~~~~~~expect 200 status code', (done) => {
+    request(app)
+      .get(`/api/exercise/log?userId=${validUserId}`)
+      .expect(200)
+      .end((err, res) => {
+        if (err) {
+          done(err)
+        } else {
+          done()
+        }
+      })
+  })
+})
