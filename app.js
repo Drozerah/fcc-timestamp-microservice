@@ -46,7 +46,7 @@ app.use(function (req, res, next) {
   }
   return next()
 })
-app.use('/api/whoiam', whoiamRouter)
+app.use('/api/whoami', whoiamRouter)
 app.use('/api/shorturl/', shortUrlRouter)
 app.use('/api/exercise/', exerciceTrackerRouter)
 
