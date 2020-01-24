@@ -22,9 +22,8 @@ console.log(`[APP-MODE] ${app.get('env')}`)
 // put your variables here
 const fakeUserName = `test-${shortid.generate()}`
 /**
-* Specifications
+* Specifications FCC
 */
-// FCC tests
 // ? [x] I can create a user by posting form data username to /api/exercise/new-user and returned will be an object with username and _id.
 describe('Test API route /api/exercise/new-user', () => {
   // no data attached to request
@@ -88,9 +87,8 @@ describe('Test API route /api/exercise/new-user', () => {
   })
 })
 /**
-* Specifications
+* Specifications FCC
 */
-// FCC tests
 // ? [x] I can get an array of all users by getting api/exercise/users with the same info as when creating a user.
 describe('Test API route /api/exercice/users', () => {
   // all users
@@ -115,88 +113,80 @@ describe('Test API route /api/exercice/users', () => {
   })
 })
 /**
-* Specifications
+* Specifications FCC
 */
-// FCC test
-// ? [ ] I can add an exercise to any user by posting form data userId(_id), description, duration, and optionally date to /api/exercise/add. If no date supplied it will use current date. App will return the user object with the exercise fields added.
-describe('Test API route /api/exercise/add', () => {
-  // Add an exercice to user by id
-  it('expect 200 status code', (done) => {
-    request(app)
-      .post('/api/exercise/add')
-      .expect(200)
-      .end((err, res) => {
-        if (err) {
-          done(err)
-        } else {
-          done()
-        }
-      })
-  })
-})
-/**
-* Specifications
-*/
-// Custom test
-// ? [x] return 400 bad request with no userId param
-describe('Test API route /api/exercise/log with no userId param', () => {
-  it('expect 400 status code with "400 BAD REQUEST" text', (done) => {
-    request(app)
-      .get('/api/exercise/log')
-      .expect('Content-Type', /text/)
-      .expect(400, '400 BAD REQUEST')
-      .end((err) => {
-        if (err) return done(err)
-        done()
-      })
-  })
-})
-/**
-* Specifications
-*/
-// Custom test
-// ? [x] return 400 bad request with invalid mongoose Object Id
-const invalidUserId = '5e208d3bbc010f2'
-describe(`Test API route /api/exercise/log?userId=${invalidUserId} with invalid mongoose Object Id`, () => {
-  it('expect 400 status code with "400 BAD REQUEST" text', (done) => {
-    request(app)
-      .get(`/api/exercise/log?userId=${invalidUserId}`)
-      .expect('Content-Type', /text/)
-      .expect(400, '400 BAD REQUEST')
-      .end((err) => {
-        if (err) return done(err)
-        done()
-      })
-  })
-})
-/**
-* Specifications
-*/
-// Custom test
-// ? [x] return 404 NOT FOUND with valid Id but no matching result
+// ? [x] I can retrieve a full exercise log of any user by getting /api/exercise/log with a parameter of userId(_id). App will return the user object with added array log and count (total exercise count)
+const validUserId = '5e28bab0061787431496b0f7'
 const validUserIdNotFound = '5d3350fe14e97100799394f5'
-describe(`Test API route /api/exercise/log?userId=${validUserIdNotFound} with valid Id but no matching result`, () => {
-  it('expect 404 status code with "404 NOT FOUND" text', (done) => {
-    request(app)
-      .get(`/api/exercise/log?userId=${validUserIdNotFound}`)
-      .expect(404, '404 NOT FOUND')
-      .end((err) => {
-        if (err) return done(err)
-        done()
-      })
-  })
-})
-/**
-* Specifications
-*/
-// FCC test
-// ? [ ] I can retrieve a full exercise log of any user by getting /api/exercise/log with a parameter of userId(_id). App will return the user object with added array log and count (total exercise count)
-const validUserId = '5e10026dc091e32a58d9f9dc'
-describe(`Test API route /api/exercise/log?userId=${validUserId}`, () => {
-  // Add an exercice to user by id
-  it('`~~~~~~~expect 200 status code', (done) => {
+const invalidUserId = '5e208d3bbc010f2'
+const validFromParam = '2020-01-01'
+const invalidFromParam = '20-01-1930'
+const validToParam = '2020-01-31'
+const invalidToParam = '20-01-1990'
+const validlimit = 2
+const invalidlimit = 1000
+const invalidlimitType = '${}kjh'
+describe('Test API route /api/exercise/log?userId=<userId>&from=<Date>&to=<Date>&limit=<Number>', () => {
+  it(`[valid][UserId] parameter expect response._id equal to the tested valid userId ${validUserId}`, (done) => {
     request(app)
       .get(`/api/exercise/log?userId=${validUserId}`)
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then(response => {
+        if (response.body._id === validUserId) {
+          done()
+        } else {
+          const e = 'error'
+          done(e)
+        }
+      })
+  })
+  it('[valid][UserId][no matching] expect 404 status code with "404 NOT FOUND" text', (done) => {
+    request(app)
+      .get(`/api/exercise/log?userId=${validUserIdNotFound}`)
+      .expect(404)
+      .then(response => {
+        if (response.body.error.status === '404 NOT FOUND') {
+          done()
+        } else {
+          done(err)
+        }
+      })
+  })
+  it('[invalid][UserId] expect 400 status code with "400 BAD REQUEST" as response.body.error.status and "invalid value" as response.body.details[0].msg', (done) => {
+    request(app)
+      .get(`/api/exercise/log?userId=${invalidUserId}`)
+      .expect('Content-Type', /json/)
+      .expect(400)
+      .then(response => {
+        if (response.body.error.status === '400 BAD REQUEST' &&
+        response.body.details[0].msg === 'invalid value') {
+          done()
+        } else {
+          const e = 'error'
+          done(e)
+        }
+      })
+  })
+  it('[invalid-empty][UserId] expect 400 status code with "400 BAD REQUEST" as response.body.error.status and "parameter is required" as response.body.details[0].msg', (done) => {
+    request(app)
+      .get('/api/exercise/log')
+      .expect('Content-Type', /json/)
+      .expect(400)
+      .then(response => {
+        if (response.body.error.status === '400 BAD REQUEST' &&
+        response.body.details[0].msg === 'parameter is required') {
+          done()
+        } else {
+          const e = 'error'
+          done(e)
+        }
+      })
+  })
+  it('[valid][from] parameter expect 200 status code', (done) => {
+    request(app)
+      .get(`/api/exercise/log?userId=${validUserId}&from=${validFromParam}`)
+      .expect('Content-Type', /json/)
       .expect(200)
       .end((err, res) => {
         if (err) {
@@ -206,4 +196,167 @@ describe(`Test API route /api/exercise/log?userId=${validUserId}`, () => {
         }
       })
   })
+  it('[invalid][from] parameter expect 400 status code', (done) => {
+    request(app)
+      .get(`/api/exercise/log?userId=${validUserId}&from=${invalidFromParam}`)
+      .expect('Content-Type', /json/)
+      .expect(400)
+      .end((err, res) => {
+        if (err) {
+          done(err)
+        } else {
+          done()
+        }
+      })
+  })
+  it('[invalid-empty][from] parameter expect 400 status code', (done) => {
+    request(app)
+      .get(`/api/exercise/log?userId=${validUserId}&from`)
+      .expect('Content-Type', /json/)
+      .expect(400)
+      .end((err, res) => {
+        if (err) {
+          done(err)
+        } else {
+          done()
+        }
+      })
+  })
+  it('[valid][to] parameter expect 200 status code', (done) => {
+    request(app)
+      .get(`/api/exercise/log?userId=${validUserId}&to=${validToParam}`)
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .end((err, res) => {
+        if (err) {
+          done(err)
+        } else {
+          done()
+        }
+      })
+  })
+  it('[invalid][to] parameter expect 400 status code', (done) => {
+    request(app)
+      .get(`/api/exercise/log?userId=${validUserId}&to=${invalidToParam}`)
+      .expect('Content-Type', /json/)
+      .expect(400)
+      .then(response => {
+        if (response.body.details[0].param === 'to') {
+          done()
+        } else {
+          const e = 'error'
+          done(e)
+        }
+      })
+  })
+  it('[invalid-empty][from] parameter expect 400 status code', (done) => {
+    request(app)
+      .get(`/api/exercise/log?userId=${validUserId}&to`)
+      .expect('Content-Type', /json/)
+      .expect(400)
+      .then(response => {
+        if (response.body.details[0].param === 'to') {
+          done()
+        } else {
+          const e = 'error'
+          done(e)
+        }
+      })
+  })
+  it('[valid][limit] parameter expect 200 status code', (done) => {
+    request(app)
+      .get(`/api/exercise/log?userId=${validUserId}&limit=${validlimit}`)
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .end((err, res) => {
+        if (err) {
+          done(err)
+        } else {
+          done()
+        }
+      })
+  })
+  it('[invalid][limit] parameter expect 400 status code', (done) => {
+    request(app)
+      .get(`/api/exercise/log?userId=${validUserId}&limit=${invalidlimit}`)
+      .expect('Content-Type', /json/)
+      .expect(400)
+      .then(response => {
+        if (response.body.details[0].param === 'limit') {
+          done()
+        } else {
+          const e = 'error'
+          done(e)
+        }
+      })
+  })
+  it('[invalid-type][limit] parameter expect 400 status code', (done) => {
+    request(app)
+      .get(`/api/exercise/log?userId=${validUserId}&limit=${invalidlimitType}`)
+      .expect('Content-Type', /json/)
+      .expect(400)
+      .then(response => {
+        if (response.body.details[0].param === 'limit') {
+          done()
+        } else {
+          const e = 'error'
+          done(e)
+        }
+      })
+  })
+  it('[invalid-empty][limit] parameter expect 400 status code', (done) => {
+    request(app)
+      .get(`/api/exercise/log?userId=${validUserId}&limit`)
+      .expect('Content-Type', /json/)
+      .expect(400)
+      .then(response => {
+        if (response.body.details[0].param === 'limit') {
+          done()
+        } else {
+          const e = 'error'
+          done(e)
+        }
+      })
+  })
+  it('[valid] full request expect 200 status code and response', (done) => {
+    request(app)
+      .get(`/api/exercise/log?userId=${validUserId}&from=${validFromParam}&to=${validToParam}&limit=${validlimit}`)
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then(response => {
+        if (
+          response.body.count === validlimit &&
+          response.body.log.length === response.body.count &&
+          response.body.username &&
+          response.body._id === validUserId &&
+          response.body.log[0].description &&
+          response.body.log[0].duration &&
+          response.body.log[0].date) {
+          done()
+        } else {
+          const e = 'error'
+          done(e)
+        }
+      })
+  })
 })
+
+/**
+* Specifications FCC
+*/
+// ? [ ] I can add an exercise to any user by posting form data userId(_id), description, duration, and optionally date to /api/exercise/add. If no date supplied it will use current date. App will return the user object with the exercise fields added.
+// describe('Test API route /api/exercise/add', () => {
+//   // Add an exercice to user by id
+//   it('>>>>>>> expect 200 status code', (done) => {
+//     request(app)
+//       .patch('/api/exercise/add')
+//       .expect(200)
+//       .end((err, res) => {
+//         if (err) {
+//           done(err)
+//         } else {
+//           done()
+//         }
+//       })
+//   })
+// })

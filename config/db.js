@@ -8,7 +8,8 @@ const connectDB = async () => {
   try {
     await mongoose.connect(db, {
       useNewUrlParser: true,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
+      useFindAndModify: false // https://mongoosejs.com/docs/deprecations.html#-findandmodify-
     })
     if (process.env.NODE_ENV !== 'test') {
       console.log('[MongoDB] Connected...')

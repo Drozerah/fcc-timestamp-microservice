@@ -39,6 +39,13 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use('/', indexRouter)
 app.use('/api/hello', helloRouter)
 app.use('/api/timestamp', timestampRouter)
+// remove favicon
+app.use(function (req, res, next) {
+  if (req.originalUrl && req.originalUrl.split('/').pop() === 'favicon.ico') {
+    return res.sendStatus(204)
+  }
+  return next()
+})
 app.use('/api/whoiam', whoiamRouter)
 app.use('/api/shorturl/', shortUrlRouter)
 app.use('/api/exercise/', exerciceTrackerRouter)

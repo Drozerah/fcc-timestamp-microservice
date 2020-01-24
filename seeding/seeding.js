@@ -12,7 +12,7 @@ const faker = require('faker')
 * Mongoose Model
 */
 const Seed = require('./model/seeding.model') // seedings db collection model for testing
-const User = require('../models/exercicetracker') // users db collection model
+const { User } = require('../models/exercicetracker') // users db collection model
 /**
 * Array of documents
 */
