@@ -136,8 +136,7 @@ describe('Test API route /api/exercise/log?userId=<userId>&from=<Date>&to=<Date>
         if (response.body._id === validUserId) {
           done()
         } else {
-          const e = 'error'
-          done(e)
+          done(err)
         }
       })
   })

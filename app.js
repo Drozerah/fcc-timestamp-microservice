@@ -10,7 +10,7 @@ const useragent = require('express-useragent')
 const indexRouter = require('./routes/index')
 const helloRouter = require('./routes/api/hello')
 const timestampRouter = require('./routes/api/timestamp')
-const whoiamRouter = require('./routes/api/whoiam')
+const whoiamRouter = require('./routes/api/whoami')
 const shortUrlRouter = require('./routes/api/urlshortener')
 const exerciceTrackerRouter = require('./routes/api/exercicetracker')
 
