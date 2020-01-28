@@ -134,7 +134,11 @@ const validationRulesAdd = [
       } else {
         return true
       }
-    }).withMessage('parameter must be a number between 1 and 1440')
+    }).withMessage('parameter must be a number between 1 and 1440'),
+  body('date')
+    .optional({ nullable: true })
+    .bail()
+    .isISO8601().withMessage('invalid parameter date must be ISO 8601 compliant')
 ]
 const validationTasksAdd = async (req, res, next) => {
   // * get validation result
