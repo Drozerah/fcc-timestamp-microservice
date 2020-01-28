@@ -6,35 +6,24 @@ const router = express.Router()
 /**
 * Mongoose Helpers
 */
-const { asyncListDBCollections, TypesObjectIdisValid } = require('../../utils/helpers/mongoDB')
+const { asyncListDBCollections } = require('../../utils/helpers/mongoDB')
 const { APICustomErrors } = require('../../utils/helpers/APIcustomErrors')
 
 /**
 * Exercice Tracker Middlewares
 */
-const { validationRulesNewUser, validationTasksNewUser, validationRulesLog, validationTasksLog } = require('../../middlewares/exercicetracker')
+const {
+  validationRulesNewUser,
+  validationTasksNewUser,
+  validationRulesLog,
+  validationTasksLog,
+  validationRulesAdd,
+  validationTasksAdd
+} = require('../../middlewares/exercicetracker')
 /**
 * Mongoose Model
 */
-const { User, Exercice } = require('../../models/exercicetracker') // username db model
-
-/**
- * Validate userId middleware
- *
- * check if a given id is a valid mongodb id from request object
- *
- * @param {String} type to construct the userId Object, must be 'query' or 'body'
- */
-const isValideId = (type) => {
-  return function (req, res, next) {
-    if (TypesObjectIdisValid(req[type].userId) === false) {
-      res.setHeader('content-type', 'text/plain')
-      res.status(400).send('400 BAD REQUEST')
-    } else {
-      next()
-    }
-  }
-}
+const { User, Exercice } = require('../../models/exercicetracker') // username and exercice db model
 
 /* POST a new user */
 // @route           POST /api/exercise/new-user
@@ -177,51 +166,57 @@ router.get(
 /* UPDATE specific user by id to add a new exercice */
 // @route            UPDATE /api/exercise/add
 // @description      add new exercice to specific user by id
-router.patch('/add', isValideId('body'), async (req, res) => {
-  try {
+router.patch(
+  '/add',
+  validationRulesAdd,
+  validationTasksAdd,
+  async (req, res) => {
+    try {
     // get userID from request body
-    const userId = req.body.userId
-    // get description from request
-    const description = req.body.description
-    // get duration from request
-    const duration = req.body.duration
-    // create new exercice object with request data
-    const newExercice = await new Exercice({ userId, description, duration })
-    // save created exercice
-    await newExercice.save()
-    const update = { $inc: { count: 1 }, $push: { log: newExercice } }
-    // find user by id then update it adding new exercice log
-    const user = await User.findByIdAndUpdate(userId, update, { new: true })
-      .select('-created -__v') // removed fields
-      .populate({
-        path: 'log', // populate field
-        select: { // ignored fields
-          _id: 0,
-          userId: 0,
-          __v: 0
-        }
-      })
-      .exec()
-    switch (true) {
-      case user === null: // user is not found
-        throw new APICustomErrors('user not found', 404, { param: 'userId', value: userId, msg: 'invalid userId' })
-      default:
-        // send response
-        res.status(200).json(user)
-        break
+      const userId = req.body.userId
+      // get description from request
+      const description = req.body.description
+      // get duration from request
+      const duration = req.body.duration
+      // create new exercice object with request data
+      const newExercice = await new Exercice({ userId, description, duration })
+      // save new exercice to db
+      await newExercice.save()
+      console.info(`[DB][exercices][saved][id] => ${newExercice._id}`)
+      // prepare content to update
+      const update = { $inc: { count: 1 }, $push: { log: newExercice } }
+      // find user by id then update it adding new exercice log
+      const user = await User.findByIdAndUpdate(userId, update, { new: true })
+        .select('-created -__v') // removed fields
+        .populate({
+          path: 'log', // populate field
+          select: { // ignored fields
+            _id: 0,
+            userId: 0,
+            __v: 0
+          }
+        })
+        .exec()
+      switch (true) {
+        case user === null: // user is not found
+          throw new APICustomErrors('user not found', 404, { value: userId, msg: 'invalid userId', param: 'userId' })
+        default:
+          // send response
+          res.status(200).json(user)
+          break
+      }
+    } catch (err) {
+      console.error(err.stack)
+      // send error response
+      switch (err.status) {
+        case 404:
+          res.status(404).json(err.log())
+          break
+        default:
+          res.status(500).json(APICustomErrors.error(500))
+          break
+      }
     }
-  } catch (err) {
-    console.error(err.stack)
-    // send error response
-    switch (err.status) {
-      case 404:
-        res.status(404).json(err.log())
-        break
-      default:
-        res.status(500).json(APICustomErrors.error(500))
-        break
-    }
-  }
-})
+  })
 
 module.exports = router
