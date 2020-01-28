@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+// const { APICustomErrors } = require('../utils/helpers/APIcustomErrors')
 
 // Create username schema
 const userSchema = new mongoose.Schema({
@@ -50,6 +51,23 @@ const exerciceSchema = new mongoose.Schema({
   }
 })
 
+/**
+*  exercice pre middleware on save action
+*/
+// exerciceSchema.pre('save', async function (next) {
+//   console.log(`[mongoose][pre][save][document] => ${this._id}`)
+//   // console.log(this) //! debug
+//   // console.log(this.userId) //! debug
+//   // check if user exists in db
+//   const user = await User.exists({ _id: this.userId })
+//   // console.log('pre user =>', user) //! debug
+//   if (user) {
+//     next()
+//   } else {
+//     console.log(`[mongoose][pre][save][abort saving document] => ${this._id}`)
+//     throw new APICustomErrors('user not found', 404, { value: this.userId, msg: 'invalid userId', param: 'userId' })
+//   }
+// })
 const Exercice = mongoose.model('Exercice', exerciceSchema) // turn into 'commandes' db collection
 
 module.exports = { User, Exercice } // turn into 'users' db collection
