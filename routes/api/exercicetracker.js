@@ -199,12 +199,19 @@ router.patch(
           }
         })
         .exec()
+      const response = {
+        username: user.username,
+        _id: user._id,
+        description: newExercice.description,
+        duration: newExercice.duration,
+        date: newExercice.date
+      }
       switch (true) {
         case user === null: // user is not found
           throw new APICustomErrors('user not found', 404, { value: userId, msg: 'invalid userId', param: 'userId' })
         default:
           // send response
-          res.status(200).json(user)
+          res.status(200).json(response)
           break
       }
     } catch (err) {
