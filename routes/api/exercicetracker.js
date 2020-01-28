@@ -178,8 +178,10 @@ router.patch(
       const description = req.body.description
       // get duration from request
       const duration = req.body.duration
+      // get date from request
+      const date = req.body.date
       // create new exercice object with request data
-      const newExercice = await new Exercice({ userId, description, duration })
+      const newExercice = await new Exercice({ userId, description, duration, date })
       // save new exercice to db
       await newExercice.save()
       console.info(`[DB][exercices][saved][id] => ${newExercice._id}`)
