@@ -35,6 +35,10 @@ class APICustomErrors extends Error {
     return apiErrorsCode[arg]
   }
 
+  static assign (arg) {
+    return Object.assign({}, apiErrorsCode[arg])
+  }
+
   log () {
     if (this.details) this.obj[this.status].details[0] = this.details
     return this.obj[this.status]
