@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-undef */
 /**
 * Babel
@@ -116,7 +117,8 @@ describe('Test API route /api/exercice/users', () => {
 * Specifications FCC
 */
 // ? [x] I can retrieve a full exercise log of any user by getting /api/exercise/log with a parameter of userId(_id). App will return the user object with added array log and count (total exercise count)
-const validUserId = '5e28bab0061787431496b0f7'
+const validUserId = '5e31c80ce1cb0c25243ad998'
+const validUserName = 'test-A3ymRjYh'
 const validUserIdNotFound = '5d3350fe14e97100799394f5'
 const invalidUserId = '5e208d3bbc010f2'
 const validFromParam = '2020-01-01'
@@ -126,6 +128,7 @@ const invalidToParam = '20-01-1990'
 const validlimit = 2
 const invalidlimit = 1000
 const invalidlimitType = '${}kjh'
+
 describe('Test API route /api/exercise/log?userId=<userId>&from=<Date>&to=<Date>&limit=<Number>', () => {
   it(`[valid][UserId] parameter expect response._id equal to the tested valid userId ${validUserId}`, (done) => {
     request(app)
@@ -339,23 +342,489 @@ describe('Test API route /api/exercise/log?userId=<userId>&from=<Date>&to=<Date>
       })
   })
 })
-
 /**
 * Specifications FCC
 */
-// ? [ ] I can add an exercise to any user by posting form data userId(_id), description, duration, and optionally date to /api/exercise/add. If no date supplied it will use current date. App will return the user object with the exercise fields added.
-// describe('Test API route /api/exercise/add', () => {
-//   // Add an exercice to user by id
-//   it('>>>>>>> expect 200 status code', (done) => {
-//     request(app)
-//       .patch('/api/exercise/add')
-//       .expect(200)
-//       .end((err, res) => {
-//         if (err) {
-//           done(err)
-//         } else {
-//           done()
-//         }
-//       })
-//   })
-// })
+// ? [x] I can add an exercise to any user by posting form data userId(_id), description, duration, and optionally date to /api/exercise/add. If no date supplied it will use current date. App will return the user object with the exercise fields added.
+const expected_response_1 = {
+  error: {
+    status: '400 BAD REQUEST',
+    code: 400
+  },
+  details: [
+    {
+      value: 'undefined',
+      msg: 'parameter is required',
+      param: 'userId'
+    },
+    {
+      value: 'undefined',
+      msg: 'parameter is required',
+      param: 'description'
+    },
+    {
+      value: 'undefined',
+      msg: 'parameter is required',
+      param: 'duration'
+    }
+  ]
+}
+const expected_response_2 = {
+  error: {
+    status: '400 BAD REQUEST',
+    code: 400
+  },
+  details: [
+    {
+      value: 'undefined',
+      msg: 'parameter is required',
+      param: 'description'
+    },
+    {
+      value: 'undefined',
+      msg: 'parameter is required',
+      param: 'duration'
+    }
+  ]
+}
+const expected_response_3 = {
+  error: {
+    status: '400 BAD REQUEST',
+    code: 400
+  },
+  details: [
+    {
+      value: invalidUserId,
+      msg: 'invalid value',
+      param: 'userId'
+    },
+    {
+      value: 'undefined',
+      msg: 'parameter is required',
+      param: 'description'
+    },
+    {
+      value: 'undefined',
+      msg: 'parameter is required',
+      param: 'duration'
+    }
+  ]
+}
+const expected_response_4 = {
+  error: {
+    status: '400 BAD REQUEST',
+    code: 400
+  },
+  details: [
+    {
+      value: validUserIdNotFound,
+      msg: 'invalid value',
+      param: 'userId'
+    },
+    {
+      value: 'undefined',
+      msg: 'parameter is required',
+      param: 'description'
+    },
+    {
+      value: 'undefined',
+      msg: 'parameter is required',
+      param: 'duration'
+    }
+  ]
+}
+const expected_response_5 = {
+  error: {
+    status: '400 BAD REQUEST',
+    code: 400
+  },
+  details: [
+    {
+      value: '',
+      msg: 'parameter must be at least 3 characters long',
+      param: 'description'
+    },
+    {
+      value: 'undefined',
+      msg: 'parameter is required',
+      param: 'duration'
+    }
+  ]
+}
+const expected_response_6 = {
+  error: {
+    status: '400 BAD REQUEST',
+    code: 400
+  },
+  details: [
+    {
+      value: 'a',
+      msg: 'parameter must be at least 3 characters long',
+      param: 'description'
+    },
+    {
+      value: 'undefined',
+      msg: 'parameter is required',
+      param: 'duration'
+    }
+  ]
+}
+const tooLongDescription = 'azertyuiopqsdfghjklmw'
+const expected_response_7 = {
+  error: {
+    status: '400 BAD REQUEST',
+    code: 400
+  },
+  details: [
+    {
+      value: tooLongDescription,
+      msg: 'parameter value maximum length is 20 characters',
+      param: 'description'
+    },
+    {
+      value: 'undefined',
+      msg: 'parameter is required',
+      param: 'duration'
+    }
+  ]
+}
+const validDescription = 'valid description'
+const expected_response_8 = {
+  error: {
+    status: '400 BAD REQUEST',
+    code: 400
+  },
+  details: [
+    {
+      value: 'undefined',
+      msg: 'parameter is required',
+      param: 'duration'
+    }
+  ]
+}
+const expected_response_9 = {
+  error: {
+    status: '400 BAD REQUEST',
+    code: 400
+  },
+  details: [
+    {
+      value: '',
+      msg: 'parameter must be a numeric value',
+      param: 'duration'
+    }
+  ]
+}
+const invalidDurationType = 'drozerah'
+const expected_response_10 = {
+  error: {
+    status: '400 BAD REQUEST',
+    code: 400
+  },
+  details: [
+    {
+      value: invalidDurationType,
+      msg: 'parameter must be a numeric value',
+      param: 'duration'
+    }
+  ]
+}
+const invalidDurationSmall = 0
+const expected_response_11 = {
+  error: {
+    status: '400 BAD REQUEST',
+    code: 400
+  },
+  details: [
+    {
+      value: invalidDurationSmall,
+      msg: 'parameter must be a number between 1 and 1440',
+      param: 'duration'
+    }
+  ]
+}
+const invalidDurationBig = 1446
+const expected_response_12 = {
+  error: {
+    status: '400 BAD REQUEST',
+    code: 400
+  },
+  details: [
+    {
+      value: invalidDurationBig,
+      msg: 'parameter must be a number between 1 and 1440',
+      param: 'duration'
+    }
+  ]
+}
+const validDuration = 40
+const invalidDateEmpty = ''
+const expected_response_13 = {
+  error: {
+    status: '400 BAD REQUEST',
+    code: 400
+  },
+  details: [
+    {
+      value: invalidDateEmpty,
+      msg: 'invalid parameter date must be ISO 8601 compliant',
+      param: 'date'
+    }
+  ]
+}
+const invalidDateFormat = '20-01-01'
+const expected_response_14 = {
+  error: {
+    status: '400 BAD REQUEST',
+    code: 400
+  },
+  details: [
+    {
+      value: invalidDateFormat,
+      msg: 'invalid parameter date must be ISO 8601 compliant',
+      param: 'date'
+    }
+  ]
+}
+const validDateFormat = '2020-01-31'
+const dateIso = `${validDateFormat}T00:00:00.000Z`
+const expected_response_15 = {
+  username: validUserName,
+  _id: validUserId,
+  description: validDescription,
+  duration: 40,
+  date: dateIso
+}
+describe('Test API route /api/exercise/add', () => {
+  // Add an exercice to user by id
+  it('<no parameters>[userId][description][duration][date] expect Content-Type = JSON | status code = 400 | response = expected_response_1 Object', (done) => {
+    request(app)
+      .post('/api/exercise/add')
+      .expect('Content-Type', /json/)
+      .expect(400, JSON.stringify(expected_response_1))
+      .end((err, res) => {
+        if (err) {
+          done(err)
+        } else {
+          done()
+        }
+      })
+  })
+  it('<valid>[userId]<no parameters>[description][duration][date] expect Content-Type = JSON | status code = 400 | response = expected_response_2 Object', (done) => {
+    request(app)
+      .post('/api/exercise/add')
+      .send({ userId: validUserId })
+      .expect('Content-Type', /json/)
+      .expect(400, JSON.stringify(expected_response_2))
+      .end((err, res) => {
+        if (err) {
+          done(err)
+        } else {
+          done()
+        }
+      })
+  })
+  it('<invalid>[userId]<no parameters>[description][duration][date] expect Content-Type = JSON | status code = 400 | response = expected_response_3 Object', (done) => {
+    request(app)
+      .post('/api/exercise/add')
+      .send({ userId: invalidUserId })
+      .expect('Content-Type', /json/)
+      .expect(400, JSON.stringify(expected_response_3))
+      .end((err, res) => {
+        if (err) {
+          done(err)
+        } else {
+          done()
+        }
+      })
+  })
+  it('<valid no matching data>[userId]<no parameters>[description][duration][date] expect Content-Type = JSON | status code = 400 | response = expected_response_4 Object', (done) => {
+    request(app)
+      .post('/api/exercise/add')
+      .send({ userId: validUserIdNotFound })
+      .expect('Content-Type', /json/)
+      .expect(400, JSON.stringify(expected_response_4))
+      .end((err, res) => {
+        if (err) {
+          done(err)
+        } else {
+          done()
+        }
+      })
+  })
+  it('<valid>[userId]<invalid empty>[description]<no parameters>[duration][date] expect Content-Type = JSON | status code = 400 | response = expected_response_5 Object', (done) => {
+    request(app)
+      .post('/api/exercise/add')
+      .send({ userId: validUserId })
+      .send({ description: '' })
+      .expect('Content-Type', /json/)
+      .expect(400, JSON.stringify(expected_response_5))
+      .end((err, res) => {
+        if (err) {
+          done(err)
+        } else {
+          done()
+        }
+      })
+  })
+  it('<valid>[userId]<invalid too short>[description]<no parameters>[duration][date] expect Content-Type = JSON | status code = 400 | response = expected_response_6 Object', (done) => {
+    request(app)
+      .post('/api/exercise/add')
+      .send({ userId: validUserId })
+      .send({ description: 'a' })
+      .expect('Content-Type', /json/)
+      .expect(400, JSON.stringify(expected_response_6))
+      .end((err, res) => {
+        if (err) {
+          done(err)
+        } else {
+          done()
+        }
+      })
+  })
+  it('<valid>[userId]<invalid too loog>[description]<no parameters>[duration][date] expect Content-Type = JSON | status code = 400 | response = expected_response_7 Object', (done) => {
+    request(app)
+      .post('/api/exercise/add')
+      .send({ userId: validUserId })
+      .send({ description: tooLongDescription })
+      .expect('Content-Type', /json/)
+      .expect(400, JSON.stringify(expected_response_7))
+      .end((err, res) => {
+        if (err) {
+          done(err)
+        } else {
+          done()
+        }
+      })
+  })
+  it('<valid>[userId][description]<no parameters>[duration][date] expect Content-Type = JSON | status code = 400 | response = expected_response_8 Object', (done) => {
+    request(app)
+      .post('/api/exercise/add')
+      .send({ userId: validUserId })
+      .send({ description: validDescription })
+      .expect('Content-Type', /json/)
+      .expect(400, JSON.stringify(expected_response_8))
+      .end((err, res) => {
+        if (err) {
+          done(err)
+        } else {
+          done()
+        }
+      })
+  })
+  it('<valid>[userId][description]<invalid empty>[duration]<no parameters>[date] expect Content-Type = JSON | status code = 400 | response = expected_response_9 Object', (done) => {
+    request(app)
+      .post('/api/exercise/add')
+      .send({ userId: validUserId })
+      .send({ description: validDescription })
+      .send({ duration: '' })
+      .expect('Content-Type', /json/)
+      .expect(400, JSON.stringify(expected_response_9))
+      .end((err, res) => {
+        if (err) {
+          done(err)
+        } else {
+          done()
+        }
+      })
+  })
+  it('<valid>[userId][description]<invalid numeric type>[duration]<no parameters>[date] expect Content-Type = JSON | status code = 400 | response = expected_response_10 Object', (done) => {
+    request(app)
+      .post('/api/exercise/add')
+      .send({ userId: validUserId })
+      .send({ description: validDescription })
+      .send({ duration: invalidDurationType })
+      .expect('Content-Type', /json/)
+      .expect(400, JSON.stringify(expected_response_10))
+      .end((err, res) => {
+        if (err) {
+          done(err)
+        } else {
+          done()
+        }
+      })
+  })
+  it('<valid>[userId][description]<invalid too small numeric>[duration]<no parameters>[date] expect Content-Type = JSON | status code = 400 | response = expected_response_11 Object', (done) => {
+    request(app)
+      .post('/api/exercise/add')
+      .send({ userId: validUserId })
+      .send({ description: validDescription })
+      .send({ duration: invalidDurationSmall })
+      .expect('Content-Type', /json/)
+      .expect(400, JSON.stringify(expected_response_11))
+      .end((err, res) => {
+        if (err) {
+          done(err)
+        } else {
+          done()
+        }
+      })
+  })
+  it('<valid>[userId][description]<invalid too big numeric>[duration]<no parameters>[date] expect Content-Type = JSON | status code = 400 | response = expected_response_12 Object', (done) => {
+    request(app)
+      .post('/api/exercise/add')
+      .send({ userId: validUserId })
+      .send({ description: validDescription })
+      .send({ duration: invalidDurationBig })
+      .expect('Content-Type', /json/)
+      .expect(400, JSON.stringify(expected_response_12))
+      .end((err, res) => {
+        if (err) {
+          done(err)
+        } else {
+          done()
+        }
+      })
+  })
+  it('<valid>[userId][description][duration]<invalid empty>[date] expect Content-Type = JSON | status code = 400 | response = expected_response_13 Object', (done) => {
+    request(app)
+      .post('/api/exercise/add')
+      .send({ userId: validUserId })
+      .send({ description: validDescription })
+      .send({ duration: validDuration })
+      .send({ date: invalidDateEmpty })
+      .expect('Content-Type', /json/)
+      .expect(400, JSON.stringify(expected_response_13))
+      .end((err, res) => {
+        if (err) {
+          done(err)
+        } else {
+          done()
+        }
+      })
+  })
+  it('<valid>[userId][description][duration]<invalid empty>[date] expect Content-Type = JSON | status code = 400 | response = expected_response_14 Object', (done) => {
+    request(app)
+      .post('/api/exercise/add')
+      .send({ userId: validUserId })
+      .send({ description: validDescription })
+      .send({ duration: validDuration })
+      .send({ date: invalidDateFormat })
+      .expect('Content-Type', /json/)
+      .expect(400, JSON.stringify(expected_response_14))
+      .end((err, res) => {
+        if (err) {
+          done(err)
+        } else {
+          done()
+        }
+      })
+  })
+  it('<valid>[userId][description][duration][date] expect Content-Type = JSON | status code = 200 | response = expected_response_15 Object', (done) => {
+    request(app)
+      .post('/api/exercise/add')
+      .send({ userId: validUserId })
+      .send({ description: validDescription })
+      .send({ duration: validDuration })
+      .send({ date: validDateFormat })
+      .expect('Content-Type', /json/)
+      .expect(200, JSON.stringify(expected_response_15))
+      .end((err, res) => {
+        if (err) {
+          done(err)
+        } else {
+          done()
+        }
+      })
+  })
+})
