@@ -128,7 +128,6 @@ const validationRulesAdd = [
     .isNumeric().withMessage('parameter must be a numeric value')
     .bail()
     .custom(value => {
-      console.log(typeof value)
       if (Number(value) < 1 || Number(value) > 1440) {
         return false
       } else {
