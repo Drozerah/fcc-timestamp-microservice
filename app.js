@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 const sassMiddleware = require('node-sass-middleware')
 const useragent = require('express-useragent')
+const bodyParser = require('body-parser')
 
 const indexRouter = require('./routes/index')
 const helloRouter = require('./routes/api/hello')
@@ -34,6 +35,8 @@ app.use(sassMiddleware({
   sourceMap: true
 }))
 app.use(useragent.express())
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: false }))
+app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/', indexRouter)
