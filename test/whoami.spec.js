@@ -1,4 +1,8 @@
 /* eslint-disable no-undef */
+/**
+* Babel
+*/
+require('@babel/polyfill')
 const app = require('../app')
 const request = require('supertest')
 /**
