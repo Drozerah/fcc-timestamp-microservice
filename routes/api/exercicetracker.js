@@ -162,11 +162,10 @@ router.get(
     }
   })
 
-// TODO validate posted data with middleware
-/* UPDATE specific user by id to add a new exercice */
-// @route            UPDATE /api/exercise/add
+/* POST specific user by id to add a new exercice */
+// @route            POST /api/exercise/add
 // @description      add new exercice to specific user by id
-router.patch(
+router.post(
   '/add',
   validationRulesAdd,
   validationTasksAdd,
